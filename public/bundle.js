@@ -78,17 +78,29 @@ var deposit25 = document.getElementById("deposit25");
 var withdraw5 = document.getElementById("withdraw5");
 var withdraw25 = document.getElementById("withdraw25");
 
+// Action Types
+var DEPOSIT = 'DEPOSIT';
+var WITHDRAW = 'WITHDRAW';
+
+// Action Creators
+var deposit = function deposit(amount) {
+  return { type: DEPOSIT, amount: amount };
+};
+var withdraw = function withdraw(amount) {
+  return { type: WITHDRAW, amount: amount };
+};
+
 deposit5.onclick = function () {
-  return store.dispatch({ type: "deposit", amount: 5 });
+  return store.dispatch(deposit(5));
 };
 deposit25.onclick = function () {
-  return store.dispatch({ type: "deposit", amount: 25 });
+  return store.dispatch(deposit(25));
 };
 withdraw5.onclick = function () {
-  return store.dispatch({ type: "withdraw", amount: 5 });
+  return store.dispatch(withdraw(5));
 };
 withdraw25.onclick = function () {
-  return store.dispatch({ type: "withdraw", amount: 25 });
+  return store.dispatch(withdraw(25));
 };
 
 var initialState = { balance: 0 };
@@ -98,9 +110,9 @@ var reducer = function reducer() {
   var action = arguments[1];
 
   switch (action.type) {
-    case "deposit":
+    case DEPOSIT:
       return { balance: state.balance + action.amount };
-    case "withdraw":
+    case WITHDRAW:
       return { balance: state.balance - action.amount };
     default:
       return state;
