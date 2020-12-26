@@ -70,10 +70,6 @@
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _redux = __webpack_require__(1);
 
 var balance = document.getElementById("balance");
@@ -81,19 +77,6 @@ var deposit5 = document.getElementById("deposit5");
 var deposit25 = document.getElementById("deposit25");
 var withdraw5 = document.getElementById("withdraw5");
 var withdraw25 = document.getElementById("withdraw25");
-
-deposit5.onclick = function () {
-  return console.log("Deposit 5");
-};
-deposit25.onclick = function () {
-  return console.log("Deposit 25");
-};
-withdraw5.onclick = function () {
-  return console.log("Withdraw 5");
-};
-withdraw25.onclick = function () {
-  return console.log("Withdraw 25");
-};
 
 deposit5.onclick = function () {
   return store.dispatch({ type: "deposit", amount: 5 });
@@ -108,8 +91,10 @@ withdraw25.onclick = function () {
   return store.dispatch({ type: "withdraw", amount: 25 });
 };
 
+var initialState = { balance: 0 };
+
 var reducer = function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { balance: 0 };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
   switch (action.type) {
@@ -123,11 +108,12 @@ var reducer = function reducer() {
 };
 var store = (0, _redux.createStore)(reducer);
 
+balance.innerText = '$' + store.getState().balance;
+
 store.subscribe(function () {
+  balance.innerText = '$' + store.getState().balance;
   console.log('New Store State: ', store.getState());
 });
-
-exports.default = store;
 
 /***/ }),
 /* 1 */

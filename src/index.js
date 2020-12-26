@@ -6,18 +6,14 @@ const deposit25 = document.getElementById("deposit25");
 const withdraw5 = document.getElementById("withdraw5");
 const withdraw25 = document.getElementById("withdraw25");
 
-deposit5.onclick = () => console.log("Deposit 5");
-deposit25.onclick = () => console.log("Deposit 25");
-withdraw5.onclick = () => console.log("Withdraw 5");
-withdraw25.onclick = () => console.log("Withdraw 25");
-
 deposit5.onclick = () => store.dispatch({ type: "deposit", amount: 5 });
 deposit25.onclick = () => store.dispatch({ type: "deposit", amount: 25 });
 withdraw5.onclick = () => store.dispatch({ type: "withdraw", amount: 5 });
 withdraw25.onclick = () => store.dispatch({ type: "withdraw", amount: 25 });
 
+let initialState = { balance: 0 };
 
-const reducer = (state = { balance: 0}, action) => {
+const reducer = (state = initialState, action) => {
   switch(action.type) {
     case "deposit":
       return { balance: state.balance + action.amount };
@@ -29,8 +25,9 @@ const reducer = (state = { balance: 0}, action) => {
 }
 const store = createStore(reducer);
 
+balance.innerText = '$' + store.getState().balance;
+
 store.subscribe(() => {
+  balance.innerText = '$' + store.getState().balance;
   console.log('New Store State: ', store.getState());
 });
-
-export default store;
