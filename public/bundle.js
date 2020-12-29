@@ -90,6 +90,7 @@ var withdraw = function withdraw(amount) {
   return { type: WITHDRAW, amount: amount };
 };
 
+// Action Dispath
 deposit5.onclick = function () {
   return store.dispatch(deposit(5));
 };
@@ -101,6 +102,21 @@ withdraw5.onclick = function () {
 };
 withdraw25.onclick = function () {
   return store.dispatch(withdraw(25));
+};
+
+// Custom Middleware
+var customMW = function customMW(store) {
+  return function (next) {
+    return function (action) {
+      var currState = store.getState();
+      var actionType = action.type;
+
+      console.log('Current state ->', currState);
+      console.log('Action type ->', actionType);
+
+      return next(action);
+    };
+  };
 };
 
 var initialState = { balance: 0 };
@@ -118,13 +134,12 @@ var reducer = function reducer() {
       return state;
   }
 };
-var store = (0, _redux.createStore)(reducer);
+var store = (0, _redux.createStore)(reducer, (0, _redux.applyMiddleware)(customMW));
 
 balance.innerText = '$' + store.getState().balance;
 
 store.subscribe(function () {
   balance.innerText = '$' + store.getState().balance;
-  console.log('New Store State: ', store.getState());
 });
 
 /***/ }),
